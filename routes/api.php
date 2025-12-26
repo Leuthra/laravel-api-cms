@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\PostController;
 use App\Http\Controllers\Api\V1\TaxonomyController;
+use App\Http\Controllers\Api\V1\CommentController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
@@ -21,15 +22,19 @@ Route::post('/email/verification-notification', [EmailVerificationNotificationCo
 Route::get('posts', [PostController::class, 'index']);
 Route::get('posts/{post}', [PostController::class, 'show']);
 
+Route::get('posts/{post:slug}/comments', [CommentController::class, 'index']);
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy']);
     
+    Route::post('posts/{post:slug}/comments', [CommentController::class, 'store']);
+    
     Route::middleware('role:admin|editor')->group(function () {
-        Route::apiResource('posts', PostController::class);
+        Route::apiResource('posts', PostController::class)->except(['index', 'show']);
     });
 
     Route::middleware('role:admin')->group(function () {
-        Route::apiResource('taxonomies', TaxonomyController::class);
+        Route::apiResource('taxonomies', TaxonomyController::class)->except(['index', 'show']);
     });
 });
 
