@@ -6,4 +6,5 @@ Route::get('/', function () {
     return ['Laravel' => app()->version()];
 });
 
-require __DIR__.'/auth.php';
+// not used, because we use api.php
+// require __DIR__.'/auth.php';

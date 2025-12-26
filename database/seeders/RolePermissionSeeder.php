@@ -24,5 +24,8 @@ class RolePermissionSeeder extends Seeder
 
         $editor = Role::firstOrCreate(['name' => 'editor', 'guard_name' => 'sanctum']);
         $editor->givePermissionTo($managePosts);
+
+        $reader = Role::firstOrCreate(['name' => 'reader', 'guard_name' => 'sanctum']);
+        $reader->givePermissionTo($managePosts);
     }
 }

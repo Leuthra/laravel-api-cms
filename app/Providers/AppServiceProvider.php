@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\User;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Gate;
@@ -21,6 +22,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        ResetPassword::createUrlUsing(function (User $user, string $token) {
+            return config('app.frontend_url').'/reset-password/'.$token.'?email='.$user->email;
+        });
+
         Gate::before(function ($user, $ability) {
             return $user->hasRole('super-admin') ? true : null;
         });
