@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\NewPasswordController;
+use App\Http\Controllers\Api\V1\SettingController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 
 Route::post('/register', [RegisteredUserController::class, 'store']);
@@ -24,6 +25,8 @@ Route::get('posts/{post}', [PostController::class, 'show']);
 
 Route::get('posts/{post:slug}/comments', [CommentController::class, 'index']);
 
+Route::get('settings', [SettingController::class, 'index']);
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy']);
     
@@ -35,6 +38,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::middleware('role:admin')->group(function () {
         Route::apiResource('taxonomies', TaxonomyController::class)->except(['index', 'show']);
+        Route::post('settings', [SettingController::class, 'update']);
     });
 });
 
