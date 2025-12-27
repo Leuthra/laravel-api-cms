@@ -10,6 +10,9 @@ class SendWebhookJob implements ShouldQueue
 {
     use Queueable;
 
+    public $tries = 3;
+    public $backoff = 10;
+
     /**
      * Create a new job instance.
      */
