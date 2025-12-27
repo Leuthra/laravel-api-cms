@@ -7,6 +7,7 @@ use App\Http\Resources\TaxonomyResource;
 use App\Models\Taxonomy;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class TaxonomyController extends Controller
 {
@@ -23,8 +24,10 @@ class TaxonomyController extends Controller
 
     public function tree()
     {
-        $taxonomies = Taxonomy::get()->toTree();
-        return TaxonomyResource::collection($taxonomies);
+        return Cache::remember('taxonomy_tree', 3600, function () {
+            $taxonomies = Taxonomy::get()->toTree();
+            return TaxonomyResource::collection($taxonomies);
+        });
     }
 
     public function store(Request $request)
@@ -36,6 +39,7 @@ class TaxonomyController extends Controller
         ]);
 
         $taxonomy = Taxonomy::create($validated);
+        Cache::forget('taxonomy_tree');
         return $this->okResponse(new TaxonomyResource($taxonomy), 'Taxonomy created', 201);
     }
 
@@ -52,12 +56,14 @@ class TaxonomyController extends Controller
         ]);
 
         $taxonomy->update($validated);
+        Cache::forget('taxonomy_tree');
         return $this->okResponse(new TaxonomyResource($taxonomy), 'Taxonomy updated');
     }
 
     public function destroy(Taxonomy $taxonomy)
     {
         $taxonomy->delete();
+        Cache::forget('taxonomy_tree');
         return $this->okResponse(null, 'Taxonomy deleted');
     }
 }

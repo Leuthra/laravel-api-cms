@@ -34,6 +34,9 @@ Route::middleware('auth:sanctum')->group(function () {
     
     Route::middleware('role:admin|editor')->group(function () {
         Route::apiResource('posts', PostController::class)->except(['index', 'show']);
+        
+        Route::put('comments/{comment}', [CommentController::class, 'update']);
+        Route::delete('comments/{comment}', [CommentController::class, 'destroy']);
     });
 
     Route::middleware('role:admin')->group(function () {

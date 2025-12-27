@@ -30,6 +30,7 @@ class SettingController extends Controller
     {
         $request->validate([
             'settings' => 'required|array',
+            'settings.*' => 'nullable|string|max:65535', // prevents massive payloads
             'group' => 'nullable|string'
         ]);
 
