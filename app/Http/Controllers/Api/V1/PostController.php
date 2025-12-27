@@ -28,8 +28,13 @@ class PostController extends Controller
                 AllowedFilter::exact('user_id'),
             ])
             ->allowedIncludes(['author', 'taxonomies'])
-            ->defaultSort('-created_at')
-            ->paginate(request()->get('per_page', 10));
+            ->defaultSort('-created_at');
+
+        if (!auth()->user()?->can('manage-posts')) {
+            $posts->where('status', 'published');
+        }
+
+        $posts = $posts->paginate(request()->get('per_page', 10));
 
         return PostResource::collection($posts);
     }
@@ -60,6 +65,10 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+        if ($post->status !== 'published' && !auth()->user()?->can('manage-posts')) {
+            abort(404);
+        }
+
         $post->load(['author', 'taxonomies']);
         return $this->okResponse(new PostResource($post));
     }
@@ -69,7 +78,7 @@ class PostController extends Controller
      */
     public function update(PostRequest $request, Post $post)
     {
-        if (!auth()->user()->can('edit-any-post') && auth()->id() !== $post->user_id) {
+        if (!auth()->user()->can('manage-posts') && auth()->id() !== $post->user_id) {
             return $this->errorResponse('You do not have permission to update this post', 403);
         }
 
