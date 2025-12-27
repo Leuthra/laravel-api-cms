@@ -13,7 +13,7 @@ class PostObserver
      */
     public function created(Post $post): void
     {
-        $this->triggerWebhooks('post.created', ['id' => $post->id]);
+        $this->triggerWebhooks('post.created', ['post' => $post->toArray()]);
     }
 
     /**
@@ -21,7 +21,7 @@ class PostObserver
      */
     public function updated(Post $post): void
     {
-        $this->triggerWebhooks('post.updated', ['id' => $post->id]);
+        $this->triggerWebhooks('post.updated', ['post' => $post->toArray()]);
     }
 
     /**
@@ -29,7 +29,7 @@ class PostObserver
      */
     public function deleted(Post $post): void
     {
-        $this->triggerWebhooks('post.deleted', ['id' => $post->id]);
+        $this->triggerWebhooks('post.deleted', ['post' => $post->toArray()]);
     }
 
     /**
@@ -37,7 +37,7 @@ class PostObserver
      */
     public function restored(Post $post): void
     {
-        $this->triggerWebhooks('post.restored', ['id' => $post->id]);
+        $this->triggerWebhooks('post.restored', ['post' => $post->toArray()]);
     }
 
     /**
@@ -45,13 +45,10 @@ class PostObserver
      */
     public function forceDeleted(Post $post): void
     {
-        $this->triggerWebhooks('post.forceDeleted', ['id' => $post->id]);
+        $this->triggerWebhooks('post.forceDeleted', ['post' => $post->toArray()]);
     }
 
-    public function saved(Post $post): void
-    {
-        $this->triggerWebhooks('post.saved', $post);
-    }
+
 
     protected function triggerWebhooks(string $eventName, $data): void
     {

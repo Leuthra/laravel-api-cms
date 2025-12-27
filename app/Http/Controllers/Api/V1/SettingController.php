@@ -43,7 +43,10 @@ class SettingController extends Controller
             );
         }
 
-        Cache::flush(); 
+        if ($request->has('group')) {
+            Cache::forget("settings_{$request->group}");
+        }
+        Cache::forget("settings_all"); 
 
         return response()->json(['message' => 'Settings updated successfully']);
     }

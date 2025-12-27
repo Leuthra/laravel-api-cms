@@ -40,7 +40,7 @@ class PostController extends Controller
     public function store(PostRequest $request)
     {
         $data = $request->validated();
-        $data['user_id'] = auth()->id() ?? 1;
+        $data['user_id'] = auth()->id();
 
         $post = Post::create($data);
 
