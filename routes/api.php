@@ -42,6 +42,6 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 });
 
+Route::get('taxonomies/tree', [TaxonomyController::class, 'tree']);
 Route::get('taxonomies', [TaxonomyController::class, 'index']);
 Route::get('taxonomies/{taxonomy}', [TaxonomyController::class, 'show']);
-Route::get('taxonomies/tree', [TaxonomyController::class, 'tree']);

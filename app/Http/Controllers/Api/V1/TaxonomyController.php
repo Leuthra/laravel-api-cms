@@ -36,7 +36,7 @@ class TaxonomyController extends Controller
         ]);
 
         $taxonomy = Taxonomy::create($validated);
-        return $this->okResponse(new TaxonomyResource($taxonomy), 'Taxonomy created', 210);
+        return $this->okResponse(new TaxonomyResource($taxonomy), 'Taxonomy created', 201);
     }
 
     public function show(Taxonomy $taxonomy)
