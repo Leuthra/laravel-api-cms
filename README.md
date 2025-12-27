@@ -1,6 +1,6 @@
 # Laravel API CMS
 
-![License](https://img.shields.io/github/license/Leuthra/laravel-api-cms?style=flat-square)
+![License](https://img.shields.io/github/license/Leuthra/laravel-api-cms)
 ![PHP Version](https://img.shields.io/badge/php-8.2-777bb4?style=flat-square&logo=php&logoColor=white)
 ![Laravel](https://img.shields.io/badge/laravel-12-FF2D20?style=flat-square&logo=laravel&logoColor=white)
 
@@ -134,4 +134,4 @@ The API follows RESTful standards. All responses are returned in JSON format.
 
 ## License
 
-This project is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is open-source software licensed under the [MIT license](LICENSE).
